@@ -13,7 +13,7 @@ from ._widget import Settings, Combo_box
 from .processors import SEG_module
 
 
-import datetime
+import time
 from magicgui import magic_factory
 import napari
 from qtpy.QtWidgets import (
@@ -105,7 +105,7 @@ class SegmentationWidget(QTabWidget):
 
         # i) add a tab widget
         self.params_widget_basic = QWidget()
-        self.addTab(self.params_widget_basic, "Segmentation")
+        self.addTab(self.params_widget_basic, "Myopari Segmentation")
 
         # ii) layout
         self.segmentation_layout = QVBoxLayout()
@@ -145,6 +145,9 @@ class SegmentationWidget(QTabWidget):
 
         self.myo_only = Settings(
             "Myocardium only", dtype=bool, initial=False, layout=slayout, write_function=self.set_segmentation_processor
+        )
+        self.createReport = Settings(
+            "Create report", dtype=bool, initial=False, layout=slayout, write_function=self.set_segmentation_processor
         )
         slayout.addSpacing(500)
         # add calculate segmentation button
@@ -246,7 +249,18 @@ class SegmentationWidget(QTabWidget):
 
             return seg
 
+        time_start = time()
         _segmentation()
+        # calculate the time taken for segmentation in seconds
+        print(f"Segmentation time: {time() - time_start:.2f} seconds")
+
+        def _create_report():
+            #################### TODO: create report for segmentation
+            # if self.createReport.val:
+            # self.h_segmentati
+            pass
+
+        _create_report()
 
     def get_image(self):
         try:
