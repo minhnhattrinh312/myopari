@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Jan 25 16:34:41 2022
-@author: Andrea Bassi @ Polimi
 """
 from qtpy.QtWidgets import QLabel, QFormLayout, QSpinBox, QDoubleSpinBox, QCheckBox, QComboBox
 from qtpy.QtCore import Qt
