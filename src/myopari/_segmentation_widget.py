@@ -252,7 +252,6 @@ class SegmentationWidget(QTabWidget):
         time_start = time()
         _segmentation()
         # calculate the time taken for segmentation in seconds
-        print(f"Segmentation time: {time() - time_start:.2f} seconds")
 
         def _create_report():
             #################### TODO: create report for segmentation
@@ -261,6 +260,7 @@ class SegmentationWidget(QTabWidget):
             pass
 
         _create_report()
+        print(f"Segmentation time: {time() - time_start:.4f} seconds")
 
     def get_image(self):
         try:

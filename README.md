@@ -74,7 +74,7 @@ This opens napari and docks the myopari widget.
 
 - Package name: `myopari`
 - License: MIT
-- Authors: Minh Nhat Trinh, Teresa Correia
+
 
 ## Notes
 
