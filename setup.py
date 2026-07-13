@@ -7,11 +7,9 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name="myopari",
     version="0.1.0",
-    description="A plugin for image segmentation.",
+    description="User-Friendly AI Software for Automated Quantitative CMR Reporting on Low-Cost, Energy-Efficient Devices",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Minh Nhat Trinh, Teresa Correia",
-    author_email="ntminh@ualg.pt",
     license="MIT",
     license_files=["LICENSE"],
     classifiers=[
@@ -33,7 +31,7 @@ setup(
         "scikit-image",
         "scipy",
         "enum",
-    ],    
+    ],
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     include_package_data=True,

@@ -1,11 +1,4 @@
-"""
-Authors:
-    Minh Nhat Trinh
-    Teresa Correia
 
-Created:
-    Feb 2, 2023
-"""
 
 # %%
 import os
