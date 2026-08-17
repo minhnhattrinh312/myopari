@@ -78,27 +78,39 @@ fi
 # 4. Detect CUDA version (if any)
 # -------------------------------------------------
 CUDA_VERSION=""
+CUDA_CODE=""
 CUDA_TAG=""
 
 if command -v nvidia-smi >/dev/null 2>&1; then
-    CUDA_VERSION="$(nvidia-smi 2>/dev/null | sed -n 's/.*CUDA Version: \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' | head -n1 || true)"
+    CUDA_VERSION="$(
+        nvidia-smi 2>/dev/null \
+            | grep -oE 'CUDA( UMD)? Version: [0-9]+\.[0-9]+' \
+            | awk 'NR == 1 { print $NF }' \
+            || true
+    )"
 fi
 
-if [ -z "$CUDA_VERSION" ] && command -v nvcc >/dev/null 2>&1; then
-    CUDA_VERSION="$(nvcc --version 2>/dev/null | sed -n 's/.*release \([0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' | head -n1 || true)"
+if [ -n "$CUDA_VERSION" ]; then
+    echo "[OK] NVIDIA driver supports CUDA version: $CUDA_VERSION"
+
+    CUDA_MAJOR="${CUDA_VERSION%%.*}"
+    CUDA_MINOR="${CUDA_VERSION#*.}"
+    CUDA_CODE=$((10#$CUDA_MAJOR * 100 + 10#$CUDA_MINOR))
+else
+    echo "[INFO] nvidia-smi did not report a CUDA version."
 fi
 
-case "$CUDA_VERSION" in
-    11.8) CUDA_TAG="cu118" ;;
-    12.1) CUDA_TAG="cu121" ;;
-    12.2) CUDA_TAG="cu122" ;;
-    12.3) CUDA_TAG="cu123" ;;
-    12.4) CUDA_TAG="cu124" ;;
-    12.5) CUDA_TAG="cu125" ;;
-    13.0) CUDA_TAG="cu130" ;;
-    13.2) CUDA_TAG="cu132" ;;
-    *) CUDA_TAG="" ;;
-esac
+# Select the newest available wheel that the installed driver can support.
+if [ -n "$CUDA_CODE" ]; then
+    if (( CUDA_CODE >= 1108 )); then CUDA_TAG="cu118"; fi
+    if (( CUDA_CODE >= 1201 )); then CUDA_TAG="cu121"; fi
+    if (( CUDA_CODE >= 1202 )); then CUDA_TAG="cu122"; fi
+    if (( CUDA_CODE >= 1203 )); then CUDA_TAG="cu123"; fi
+    if (( CUDA_CODE >= 1204 )); then CUDA_TAG="cu124"; fi
+    if (( CUDA_CODE >= 1205 )); then CUDA_TAG="cu125"; fi
+    if (( CUDA_CODE >= 1300 )); then CUDA_TAG="cu130"; fi
+    if (( CUDA_CODE >= 1302 )); then CUDA_TAG="cu132"; fi
+fi
 
 # -------------------------------------------------
 # 5. Install llama-cpp-python with pip
@@ -108,12 +120,12 @@ echo "[INFO] Installing llama-cpp-python into $NAPARI_ENV ..."
 "$PYTHON_EXE" -m pip install --upgrade pip
 
 if [ -n "$CUDA_TAG" ]; then
-    echo "[INFO] Detected CUDA version: $CUDA_VERSION ($CUDA_TAG)"
+    echo "[INFO] Nearest compatible CUDA wheel for $CUDA_VERSION: $CUDA_TAG"
     "$PYTHON_EXE" -m pip install llama-cpp-python \
-        --extra-index-url "https://abetlen.github.io/llama-cpp-python/whl/$CUDA_TAG"
+        --extra-index-url "https://abetlen.github.io/llama-cpp-python/whl/$CUDA_TAG" --no-cache-dir
 else
     if [ -n "$CUDA_VERSION" ]; then
-        echo "[WARN] Detected CUDA version $CUDA_VERSION is not in the supported wheel list."
+        echo "[WARN] No available CUDA wheel supports detected version $CUDA_VERSION."
         echo "[WARN] Falling back to CPU wheel."
     else
         echo "[INFO] No CUDA detected. Using CPU wheel."

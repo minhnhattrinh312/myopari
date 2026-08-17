@@ -95,40 +95,48 @@ rem -------------------------------------------------
 rem 3. NVIDIA / CUDA detection
 rem -------------------------------------------------
 set "CUDA_VERSION="
+set "CUDA_CODE="
 set "CUDA_TAG="
 
 echo Checking for CUDA version...
 
-for /f "tokens=2 delims=:" %%A in ('nvidia-smi ^| findstr /C:"CUDA Version" 2^>nul') do (
+rem nvidia-smi reports the newest CUDA runtime supported by the installed driver.
+rem Recent Windows drivers label this "CUDA UMD Version"; older drivers use
+rem "CUDA Version".
+for /f "tokens=3 delims=:" %%A in ('nvidia-smi 2^>nul ^| findstr /C:"CUDA Version:" /C:"CUDA UMD Version:"') do (
     for /f "tokens=1" %%B in ("%%A") do set "CUDA_VERSION=%%B"
 )
 
-if not defined CUDA_VERSION (
-    for /f "tokens=5 delims= ,v" %%A in ('nvcc --version ^| findstr /C:"release" 2^>nul') do set "CUDA_VERSION=%%A"
-)
-
 if defined CUDA_VERSION (
-    echo [OK] Detected CUDA Version: %CUDA_VERSION%
+    echo [OK] NVIDIA driver supports CUDA Version: %CUDA_VERSION%
+
+    rem Convert major.minor to a comparable integer, e.g. 13.3 becomes 1303.
+    for /f "tokens=1,2 delims=." %%A in ("%CUDA_VERSION%") do (
+        set /a CUDA_CODE=%%A * 100 + %%B
+    )
 ) else (
-    echo [INFO] No CUDA detected. Using CPU wheel.
+    echo [INFO] nvidia-smi did not report a CUDA version. Using CPU wheel.
 )
 
-if /i "%CUDA_VERSION%"=="11.8" set "CUDA_TAG=cu118"
-if /i "%CUDA_VERSION%"=="12.1" set "CUDA_TAG=cu121"
-if /i "%CUDA_VERSION%"=="12.2" set "CUDA_TAG=cu122"
-if /i "%CUDA_VERSION%"=="12.3" set "CUDA_TAG=cu123"
-if /i "%CUDA_VERSION%"=="12.4" set "CUDA_TAG=cu124"
-if /i "%CUDA_VERSION%"=="12.5" set "CUDA_TAG=cu125"
-if /i "%CUDA_VERSION%"=="13.0" set "CUDA_TAG=cu130"
-if /i "%CUDA_VERSION%"=="13.2" set "CUDA_TAG=cu132"
+rem Select the newest available wheel that the installed driver can support.
+if defined CUDA_CODE (
+    if !CUDA_CODE! GEQ 1108 set "CUDA_TAG=cu118"
+    if !CUDA_CODE! GEQ 1201 set "CUDA_TAG=cu121"
+    if !CUDA_CODE! GEQ 1202 set "CUDA_TAG=cu122"
+    if !CUDA_CODE! GEQ 1203 set "CUDA_TAG=cu123"
+    if !CUDA_CODE! GEQ 1204 set "CUDA_TAG=cu124"
+    if !CUDA_CODE! GEQ 1205 set "CUDA_TAG=cu125"
+    if !CUDA_CODE! GEQ 1300 set "CUDA_TAG=cu130"
+    if !CUDA_CODE! GEQ 1302 set "CUDA_TAG=cu132"
+)
 
 if defined CUDA_TAG (
-    echo [OK] Using CUDA wheel tag: %CUDA_TAG%
+    echo [OK] Nearest compatible CUDA wheel tag: %CUDA_TAG%
     goto :GPU_INSTALL
 )
 
 if defined CUDA_VERSION (
-    echo [WARN] CUDA version %CUDA_VERSION% is not in the supported wheel list.
+    echo [WARN] No available CUDA wheel supports detected version %CUDA_VERSION%.
     echo [WARN] Falling back to CPU wheel.
 )
 goto :CPU_INSTALL
@@ -145,7 +153,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-call "%PYTHON_EXE%" -m pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/%CUDA_TAG%
+call "%PYTHON_EXE%" -m pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/%CUDA_TAG% --no-cache-dir
 if errorlevel 1 (
     echo.
     echo [ERROR] CUDA wheel install failed -> falling back to CPU.
