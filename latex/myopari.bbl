@@ -1,0 +1,87 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{chong2025global}
+Chong, B., Jayabaskaran, J., Jauhari, S.M., Chan, S.P., Goh, R., Kueh, M.T.W.,
+  Li, H., Chin, Y.H., Kong, G., Anand, V.V., et~al.: Global burden of
+  cardiovascular diseases: projections from 2025 to 2050. European journal of
+  preventive cardiology  \textbf{32}(11),  1001--1015 (2025)
+
+\bibitem{kawel2020reference}
+Kawel-Boehm, N., Hetzel, S.J., Ambale-Venkatesh, B., Captur, G., Francois,
+  C.J., Jerosch-Herold, M., Salerno, M., Teague, S.D., Valsangiacomo-Buechel,
+  E., Van~der Geest, R.J., et~al.: Reference ranges (“normal values”) for
+  cardiovascular magnetic resonance ({CMR}) in adults and children: 2020
+  update. Journal of cardiovascular magnetic resonance  \textbf{22}(1), ~87
+  (2020)
+
+\bibitem{chen2020deep}
+Chen, C., Qin, C., Qiu, H., Tarroni, G., Duan, J., Bai, W., Rueckert, D.: Deep
+  learning for cardiac image segmentation: a review. Frontiers in
+  cardiovascular medicine  \textbf{7},  508599 (2020)
+
+\bibitem{bai2018automated}
+Bai, W., Sinclair, M., Tarroni, G., Oktay, O., Rajchl, M., Vaillant, G., Lee,
+  A.M., Aung, N., Lukaschuk, E., Sanghvi, M.M., et~al.: Automated
+  cardiovascular magnetic resonance image analysis with fully convolutional
+  networks. Journal of cardiovascular magnetic resonance  \textbf{20}(1), ~65
+  (2018). \doi{https://doi.org/10.1186/s12968-018-0471-x}
+
+\bibitem{U-Net}
+Ronneberger, O., Fischer, P., Brox, T.: {U-Net: Convolutional Networks for
+  Biomedical Image Segmentation}. In: International Conference on Medical image
+  computing and computer-assisted intervention. pp. 234--241 (2015)
+
+\bibitem{fan2023vit}
+Fan, C., Su, Q., Xiao, Z., Su, H., Hou, A., Luan, B.: {ViT-FRD}: {A} vision
+  transformer model for cardiac {MRI} image segmentation based on feature
+  recombination distillation. IEEE Access  \textbf{11},  129763--129772 (2023)
+
+\bibitem{raspberry}
+Fezari, M., Al-Dahoud, A.: {Raspberry Pi} 5: The new {Raspberry Pi} family with
+  more computation power and {AI} integration (2023).
+  \doi{10.13140/RG.2.2.13547.52009}
+
+\bibitem{jetsonnano}
+Kurniawan, A.: Introduction to nvidia jetson nano. In: IoT Projects with NVIDIA
+  Jetson Nano: AI-Enabled Internet of Things Projects for Beginners, pp.~1--6.
+  Springer (2020). \doi{https://doi.org/10.1007/978-1-4842-6452-2_1}
+
+\bibitem{napari}
+Sofroniew, N., Lambert, T., Bokota, G., Nunez-Iglesias, J., Sobolewski, P.,
+  Sweet, A., Gaifas, L., Evans, K., Burt, A., Doncila~Pop, D., et~al.: napari:
+  a multi-dimensional image viewer for python. Zenodo  (2022)
+
+\bibitem{tiramisu}
+Jégou, S., Drozdzal, M., Vazquez, D., Romero, A., Bengio, Y.: {The One Hundred
+  Layers Tiramisu: Fully Convolutional DenseNets for Semantic Segmentation}.
+  In: 2017 IEEE Conference on Computer Vision and Pattern Recognition Workshops
+  (CVPRW). pp. 1175--1183 (2017). \doi{10.1109/CVPRW.2017.156}
+
+\bibitem{emidec}
+Lalande, A., Chen, Z., Decourselle, T., Qayyum, A., Pommier, T., Lorgis, L.,
+  de~La~Rosa, E., Cochet, A., Cottin, Y., Ginhac, D., et~al.: {Emidec: A
+  Database Usable for the Automatic Evaluation of Myocardial Infarction from
+  Delayed-Enhancement Cardiac MRI}. Data  \textbf{5}(4), ~89 (2020)
+
+\bibitem{acdc}
+Bernard, O., Lalande, A., Zotti, C., Cervenansky, F., Yang, X., Heng, P.A.,
+  Cetin, I., Lekadir, K., Camara, O., Ballester, M.A.G., et~al.: Deep learning
+  techniques for automatic {MRI} cardiac multi-structures segmentation and
+  diagnosis: is the problem solved? IEEE transactions on medical imaging
+  \textbf{37}(11),  2514--2525 (2018).
+  \doi{https://doi.org/10.1109/TMI.2018.2837502}
+
+\bibitem{nadam}
+Dozat, T.: Incorporating nesterov momentum into adam  (2016),
+  \url{https://openreview.net/forum?id=OM0jvwB8jIp57ZJjtNEZ}
+
+\bibitem{focal_active_loss}
+Trinh, M.N., Nham, D.H.N., Pham, V.T., Tran, T.T.: {An Attention-PiDi-UNet} and
+  {Focal Active Contour} loss for {Biomedical Image Segmentation}. In: 2022
+  RIVF International Conference on Computing and Communication Technologies
+  (RIVF). pp. 635--640 (2022). \doi{10.1109/RIVF55975.2022.10013852}
+
+\end{thebibliography}
