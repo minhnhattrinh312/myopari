@@ -40,7 +40,7 @@ Teresa M Correia\inst{1,2}
 %
 \institute{Quantitative Bio-imaging Lab, Centro de Ciências do Mar (CCMAR/CIMAR-LA), Campus de Gambelas, Universidade do Algarve, Faro, Portugal
 \and
- School of Biomedical Engineering and Imaging Sciences, King's College London, London, United Kingdom \\
+School of Biomedical Engineering and Imaging Sciences, King's College London, London, United Kingdom \\
 \email{tmcorreia@ualg.pt}}
 
 
@@ -59,13 +59,13 @@ Cardiac magnetic resonance (CMR) is the reference standard for assessing cardiac
 
 \section{Introduction}
 
-Cardiovascular disease remains one of the leading causes of mortality worldwide, with the burden disproportionately affecting low- and middle-income countries (LMICs), where access to specialized cardiac imaging expertise is often limited \cite{chong2025global}. Cardiac magnetic resonance (CMR) is the gold standard for evaluating cardiac function and viability \cite{kawel2020reference}; however, routine CMR analysis requires labor-intensive segmentation and quantitative measurements that depend on experienced readers and substantial reporting time \cite{chen2020deep}, hindering its adoption in under-resourced settings where magnetic resonance imaging (MRI) is available.  
+Cardiovascular disease remains one of the leading causes of mortality worldwide, with the burden disproportionately affecting low- and middle-income countries (LMICs), where access to specialized cardiac imaging expertise is often limited \cite{chong2025global}. Cardiac magnetic resonance (CMR) is the gold standard for evaluating cardiac function and viability \cite{kawel2020reference}; however, routine CMR analysis requires labor-intensive segmentation and quantitative measurements that depend on experienced readers and substantial reporting time \cite{chen2020deep}, hindering its adoption in under-resourced settings where magnetic resonance imaging (MRI) is available.
 
 Recently, deep learning methods have achieved near-human performance in automated CMR segmentation and quantitative analysis \cite{chen2020deep,bai2018automated,U-Net,fan2023vit}. Nevertheless, most existing solutions are designed for GPU-equipped workstations and require complex software environments or expensive commercial licenses, limiting their accessibility in resource-constrained settings (RCS). Consequently, despite remarkable algorithmic advances, practical deployment of AI-assisted CMR analysis remains a challenge in many healthcare systems.
 
 Recent progress in edge AI provides an opportunity to address these limitations. Low-cost devices such as the Raspberry Pi~5 \cite{raspberry} and NVIDIA Jetson Nano \cite{jetsonnano} can efficiently execute lightweight deep learning models while consuming significantly less power than conventional GPU workstations. Moreover, Napari \cite{napari}, an open-source Python-based biomedical image viewer with a flexible plugin architecture, offers an intuitive platform for integrating AI models into clinical workflows without requiring programming expertise.
 
-In this work, we present \textit{Myopari}, an open-source Napari plugin for automated quantitative CMR analysis on low-cost edge devices. The proposed framework integrates a lightweight deep learning model for CMR segmentation with automated biomarker extraction, three-dimensional (3D) visualization, and structured patient report generation within a user-friendly GUI. Unlike existing approaches that primarily emphasize segmentation accuracy or inference optimization, \textit{Myopari} combines accurate AI-assisted CMR analysis, resource-efficient deployment, and one-click clinical reporting into a single deployable application. By lowering computational, financial, and technical barriers, \textit{Myopari} aims to improve access to advanced cardiac imaging workflows in resource-constrained healthcare settings.
+In this work, we present \textit{Myopari}, an open-source Napari plugin for automated quantitative CMR analysis on low-cost edge devices. The proposed framework integrates a lightweight deep learning model for CMR segmentation with automated biomarker extraction, three-dimensional (3D) visualization, and structured patient report generation within a user-friendly GUI. Unlike existing approaches that primarily emphasize segmentation accuracy or inference optimization, \textit{Myopari} combines accurate AI-assisted CMR analysis, resource-efficient deployment, and one-click automated analysis reporting into a single deployable application. By lowering computational, financial, and technical barriers, \textit{Myopari} aims to improve access to advanced cardiac imaging workflows in resource-constrained healthcare settings.
 
 \section{Methodology}
 The proposed framework consists of three components: (1) a lightweight deep learning model for automated CMR segmentation, (2) post-training quantization and deployment on low-cost edge hardware for efficient inference, and (3) an integrated Napari plugin for fast 3D visualization and automated quantitative report generation. An overview of the framework is shown in Fig.~\ref{fig:framework}.
@@ -77,7 +77,7 @@ The proposed framework consists of three components: (1) a lightweight deep lear
 \end{figure}
 \subsection{Lightweight CMR Segmentation Network}
 
-To enable deployment on resource-constrained hardware, we adopted a compact fully convolutional DenseNet (FC-DenseNet) architecture based on the U-Net encoder--decoder framework \cite{tiramisu}. The network contains approximately 1.4 million parameters, occupies only $\sim$5 MB of storage, and requires 12.01 GFLOPs per inference, making it suitable for embedded devices with limited memory and computational resources.
+To enable deployment on resource-constrained hardware, we adopted a compact fully convolutional DenseNet (FC-DenseNet) architecture based on the U-Net encoder--decoder framework \cite{tiramisu}. The network contains approximately 1.4 million parameters, occupies only $\sim$5 MB of storage, and requires 12.01 GFLOPs per inference, making it suitable for embedded devices with limited memory and computational resources. The objective of this design choice was to provide a compact and reliable segmentation backbone suitable for deployment within a complete CMR analysis workflow.
 
 Model compactness was achieved using a shallow FC-DenseNet configuration with five encoder and decoder dense blocks $(4,4,4,4,4)$, a growth rate of 12, and 48 feature maps in the initial convolution layer. Dense skip connections preserve feature reuse throughout the network, while substantially reducing the number of parameters compared to conventional U-Net architectures. This design provides an effective balance between segmentation accuracy and computational efficiency.
 
@@ -89,34 +89,43 @@ Training was performed on an NVIDIA GeForce RTX 4070 SUPER GPU (12 GB) using mix
 To facilitate deployment in clinical and resource-constrained settings, we developed \textit{Myopari}, a Napari plugin that integrates lightweight CMR segmentation models into an intuitive GUI (Fig.~\ref{fig:myopari}).
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.9\linewidth]{images/myopari.png}
+    \includegraphics[width=\linewidth]{images/myopari.png}
     \caption{\textit{Myopari} Napari plugin for automated CMR analysis. This simple workflow enables automated segmentation, biomarker extraction, 3D rendering, and structured reporting. Users only need to select the hardware and AI model; the plugin then executes the full analysis pipeline with one click.}
     \label{fig:myopari}
 \end{figure}
 Unlike command-line research software, \textit{Myopari} enables fully automated CMR analysis through a simple point-and-click workflow. First, users select the target hardware platform, either NVIDIA Jetson Nano (hybrid GPU--CPU inference) or Raspberry Pi 5 (CPU-only inference). Then, users choose the appropriate segmentation model for the target dataset (e.g., cine or LGE CMR) and may optionally enable myocardium-only segmentation and automatic report generation. Finally, the entire analysis pipeline is executed by pressing a single \textit{Segment} button. \textit{Myopari} automatically performs image segmentation, computes quantitative cardiac biomarkers, generates 3D visualizations, and produces a structured patient report. This streamlined workflow lowers the technical barrier to AI-assisted CMR analysis, making advanced CMR analysis accessible on affordable, low-energy computing platforms. To promote reproducibility and community development, \textit{Myopari} is released as open source and is available at \href{https://github.com/QBioImaging/myopari}{github.com/QBioImaging/myopari}.
+
+\section{Results}
+Figures~\ref{fig:sample} and \ref{fig:metrics} show that the proposed model produces accurate segmentations across both datasets. 
+
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/samples.pdf}
+    \includegraphics[width=0.95\linewidth]{images/samples.pdf}
     \caption{Representative cases from the EMIDEC and ACDC datasets. From left to right: LGE image, ground truth segmentation, model prediction, and 3D rendering in Napari. Segmentation labels are color-coded as follows: left ventricle (LV), myocardium (Myo), right ventricle (RV), myocardial infarction (MI), and microvascular obstruction (MVO, also referred to as no-reflow).}
     \label{fig:sample}
 \end{figure}
-\section{Results}
-Figures~\ref{fig:sample} and \ref{fig:metrics} show that the proposed model produces accurate segmentations across both datasets. 
 Predicted contours closely match the reference annotations, with consistently high Dice scores and low HD and volume differences. Although Dice is sensitive to small boundary errors in tiny pathological regions such as MVO and small infarcts, scar burden estimation remained highly consistent with the ground truth, with no statistically significant difference ($p=0.24$, Wilcoxon signed-rank test).
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.9\linewidth]{images/segmentation_metrics.pdf}
+    \includegraphics[width=\linewidth]{images/segmentation_metrics.pdf}
     \caption{Quantitative evaluation on the EMIDEC (top) and ACDC (bottom) datasets. Performance is assessed using Dice score, Hausdorff distance (HD), volume difference, and scar burden (\% infarcted myocardium).}
     \label{fig:metrics}
 \end{figure}
 Figure~\ref{fig:reports} illustrates automatically generated patient reports integrating segmentation results, quantitative biomarkers, and representative MRI slices into a structured clinical summary.
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.9\linewidth]{images/reports.pdf}
+    \includegraphics[width=\linewidth]{images/reports.pdf}
     \caption{Examples of patient reports automatically generated with \textit{Myopari}. A) ACDC cine CMR case with dilated cardiomyopathy. B) EMIDEC LGE CMR case with myocardial infarction. Each report includes patient metadata, representative segmented MRI slices, quantitative cardiac measurements, and clinically relevant biomarkers.}
     \label{fig:reports}
 \end{figure}
 Table~\ref{tab:hardware} summarizes deployment performance on different hardware platforms. Jetson Orin Nano required only 2.4~GB GPU memory and approximately 2.2~s per patient, while Raspberry Pi~5 completed inference in approximately 10.6~s using CPU-only computation. No statistically significant differences in segmentation performance were observed across devices ($p>0.05$).
+
+\section{Impact in Resource-Constrained Settings (RCS)}
+\textit{Myopari} addresses several barriers to AI-assisted CMR analysis in resource-constrained healthcare settings. By enabling inference on affordable edge devices such as the NVIDIA Jetson Orin Nano and Raspberry Pi 5, the system substantially reduces hardware cost and energy consumption compared with conventional GPU workstations, making deployment feasible for healthcare providers with limited computational infrastructure.
+
+The Napari-based GUI enables automated segmentation, quantitative analysis, 3D visualization, and structured report generation through a simple point-and-click workflow, without requiring programming expertise. It also supports (optional) interactive review and correction of AI-generated contours, enabling a human-in-the-loop workflow with expert oversight (when available).
+
+The low deployment cost allows multiple edge devices to be distributed across departments or clinical sites instead of relying on a single GPU workstation, improving scalability and accessibility. Combined with automated quantitative reporting, this can reduce reporting time and support non-specialist clinicians and healthcare providers, where cardiac imaging expertise is limited. Furthermore, \textit{Myopari} is fully open-source, promoting reproducibility, sustainability, and wider adoption of AI-assisted CMR analysis in LMICs. The framework can also be extended to other MRI sequences and more widely available imaging modalities, such as X-ray computed tomography and ultrasound. 
 \begin{table}[!ht]
 \centering
 \caption{Comparison of inference performance across different hardware platforms. Average inference time, GPU memory usage, energy consumption, and hardware cost are reported for CMR segmentation on the EMIDEC and ACDC datasets. No statistically significant differences in segmentation performance were observed across devices (p>0.05).}
@@ -137,23 +146,15 @@ Raspberry Pi 5                & 7.4 & 10.6 & --  & 8.9  & $\sim$70 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-
-\section{Impact in Resource-Constrained Settings (RCS)}
-
-\textit{Myopari} addresses several barriers to AI-assisted CMR analysis in resource-constrained healthcare settings. By enabling inference on affordable edge devices such as the NVIDIA Jetson Orin Nano and Raspberry Pi 5, the system substantially reduces hardware cost and energy consumption compared with conventional GPU workstations, making deployment feasible for healthcare providers with limited computational infrastructure.
-
-The Napari-based GUI enables automated segmentation, quantitative analysis, 3D visualization, and structured report generation through a simple point-and-click workflow, without requiring programming expertise. It also supports (optional) interactive review and correction of AI-generated contours, enabling a human-in-the-loop workflow with expert oversight (when available).
-
-The low deployment cost allows multiple edge devices to be distributed across departments or clinical sites instead of relying on a single GPU workstation, improving scalability and accessibility. Combined with automated quantitative reporting, this can reduce reporting time and support non-specialist clinicians and healthcare providers, where cardiac imaging expertise is limited. Furthermore, \textit{Myopari} is fully open-source, promoting reproducibility, sustainability, and wider adoption of AI-assisted CMR analysis in LMICs. The framework can also be extended to other MRI sequences and more widely available imaging modalities, such as X-ray computed tomography and ultrasound. 
-
 \section{Discussion \& Conclusion}
 
-This study demonstrates that accurate CMR segmentation can be achieved using lightweight models deployed on low-cost edge devices without compromising segmentation performance. The proposed \textit{Myopari} FC-DenseNet retains the dense connectivity and segmentation robustness of the original FC-DenseNet architecture while reducing the model size from 9.4 million to only 1.4 million parameters ($\approx 7\times$ reduction). This reduction is achieved through a shallower network architecture with fewer dense blocks and fewer layers per block, enabling fast and accurate inference on low-cost edge devices. By integrating segmentation, quantitative analysis, visualization, and automated reporting into a single Napari plugin, \textit{Myopari} provides a practical software solution that extends beyond model inference. Optional interactive contour editing further enables a human-in-the-loop workflow for quality assurance when CMR expertise is available. \textit{Myopari} can also be combined with large language models (LLMs) to generate clinically interpretable narrative reports, as demonstrated in this \href{https://github.com/QBioImaging/myopari/blob/main/reports/myopari_report_patient101_4d.nii.md}{example patient report}.
+This study demonstrates that accurate CMR segmentation can be achieved using lightweight models deployed on low-cost edge devices without compromising segmentation performance. The proposed \textit{Myopari} FC-DenseNet retains the dense connectivity and segmentation robustness of the original FC-DenseNet architecture while reducing the model size from 9.4 million to only 1.4 million parameters ($\approx 7\times$ reduction). This reduction is achieved through a shallower network architecture with fewer dense blocks and fewer layers per block, enabling fast and accurate inference on low-cost edge devices. By integrating segmentation, quantitative analysis, visualization, and automated reporting into a single Napari plugin, \textit{Myopari} provides a practical software solution that extends beyond model inference. Optional interactive contour editing further enables a human-in-the-loop workflow for quality assurance when CMR expertise is available. \textit{Myopari} can also be combined with large language models (LLMs) to generate clinically interpretable narrative reports, as demonstrated in this \href{https://github.com/QBioImaging/myopari/blob/main/reports/myopari_report_patient101_4d.nii.md}{example patient report}. However, these LLM-generated reports have not yet undergone clinical validation and require systematic evaluation, including assessment of factual correctness, reliability, and expert acceptance before potential clinical use.
 
-This study has several limitations. Validation was performed on two single-vendor public datasets, and additional evaluation on multi-center and multi-vendor datasets is needed. In addition, the LLM-generated narrative reports have not yet been clinically validated and require systematic evaluation and expert oversight to ensure their accuracy and reliability.
+Beyond segmentation, the main contribution of \textit{Myopari} lies in translating AI-assisted CMR analysis into an accessible and deployable software framework. By integrating segmentation, quantitative biomarker extraction, visualization, and automated report generation into a single Napari plugin, \textit{Myopari} extends beyond conventional AI studies that primarily focus on segmentation accuracy. The framework addresses practical barriers to AI adoption, including computational requirements, deployment cost, software accessibility, and workflow integration. Optional interactive contour editing further enables a human-in-the-loop workflow for quality assurance when CMR expertise is available. Although the lightweight FC-DenseNet provides an efficient segmentation backbone, this study does not aim to establish the optimal lightweight segmentation architecture. Several compact segmentation approaches, including MobileNet-based and EfficientNet-based encoder-decoder models, have been proposed, and systematic comparisons among these architectures under identical deployment conditions remain an important direction for future work. Instead, the objective of this study is to demonstrate the feasibility of deploying a complete quantitative CMR analysis workflow on affordable, energy-efficient edge devices.
 
-In summary, our proposed lightweight AI-driven CMR analysis runs efficiently on portable, low-cost, energy-efficient devices, allowing both specialist and non-specialist clinicians in under-resourced settings to easily generate accurate quantitative cardiac reports, expand diagnostic access, and ultimately improve patient outcomes.
+This study has several limitations. First, validation was performed on two publicly available single-vendor datasets, and additional evaluation on multi-center and multi-vendor datasets is required to assess generalizability across different scanners, acquisition protocols, and patient populations. Second, although the graphical interface provides a simplified point-and-click workflow, formal usability evaluation involving clinicians or radiographers has not been performed. Future studies should investigate usability using standardized metrics such as the System Usability Scale (SUS), task completion time, workflow efficiency, and user feedback. Third, while the current study demonstrates automated quantitative reporting, comprehensive validation of all extracted biomarkers, including ventricular volumes, ejection fraction, myocardial mass, and infarct-related measurements, remains necessary. Finally, integration with existing clinical infrastructures, such as hospital information systems, represents an important future step toward clinical translation.
+
+In summary, \textit{Myopari} provides an open-source, lightweight, and resource-efficient framework for AI-assisted CMR analysis that combines segmentation, quantitative assessment, visualization, and reporting on affordable edge hardware. By reducing computational and software barriers, the framework represents a step toward making advanced cardiac imaging analysis more accessible in resource-constrained healthcare environments.
 
 \subsubsection{Acknowledgements} 
 This study received funding from the FCT--Portuguese Foundation for Science and Technology through grants
@@ -172,6 +173,6 @@ The authors declare no competing interests.
 
 
 \bibliographystyle{splncs04}
-\bibliography{paper}
+\bibliography{paper71.bib}
 
 \end{document}
