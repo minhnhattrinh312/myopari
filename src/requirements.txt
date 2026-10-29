@@ -1,5 +1,0 @@
-enum
-numpy
-llama-cpp-python --
-onnxruntime-gpu[cuda,cudnn]
-skimage

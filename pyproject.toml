@@ -1,6 +1,51 @@
 [build-system]
-requires = ["setuptools>=42.0.0", "wheel"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "myopari"
+version = "0.1.6"
+description = "User-Friendly AI Software for Automated Quantitative CMR Reporting on Low-Cost, Energy-Efficient Devices"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: napari",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "napari",
+    "scikit-image",
+    "onnxruntime-gpu[cuda,cudnn]",
+    "huggingface-hub",
+    "napari-itk-io",
+]
+
+[project.entry-points."napari.manifest"]
+myopari = "myopari:napari.yaml"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+license-files = ["LICENSE"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.setuptools.package-data]
+myopari = ["napari.yaml", "Resources/*", "Resources/**/*"]
 
 [tool.black]
 line-length = 79
