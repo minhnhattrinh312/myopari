@@ -7,6 +7,12 @@
 
 **myopari: An Open-Source Edge AI Framework for Automated Quantitative Cardiac MRI Analysis.**
 
+## 👥 Authors
+
+Minh Nhat Trinh and Teresa M Correia
+
+Quantitative Bio-imaging Lab, Centro de Ciências do Mar do Algarve (CCMAR/CIMAR LA), Campus de Gambelas, Universidade do Algarve, 8005-139 Faro, Portugal
+
 ## 💓 Introduction
 
 myopari is a [napari](https://napari.org/) plugin for cardiac MRI segmentation and quantitative report generation. It brings ONNX-based AI inference to edge devices through an interactive interface that works with both 2D images and 3D volumes.
@@ -68,10 +74,10 @@ pip install "napari[all]==0.7.1"
 
 # Check your CUDA version. If nvidia-smi is unavailable, use the CPU command.
 # CPU:
-pip install llama-cpp-python \
+pip install llama-cpp-python==0.3.36 \
     --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
 # CUDA (replace cu124 with your CUDA wheel tag, for example cu118 or cu121):
-pip install llama-cpp-python \
+pip install llama-cpp-python==0.3.36 \
     --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu132
 pip install myopari
 

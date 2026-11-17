@@ -121,7 +121,7 @@ echo "[INFO] Installing llama-cpp-python into $NAPARI_ENV ..."
 
 if [ -n "$CUDA_TAG" ]; then
     echo "[INFO] Nearest compatible CUDA wheel for $CUDA_VERSION: $CUDA_TAG"
-    "$PYTHON_EXE" -m pip install llama-cpp-python \
+    "$PYTHON_EXE" -m pip install llama-cpp-python==0.3.36 \
         --extra-index-url "https://abetlen.github.io/llama-cpp-python/whl/$CUDA_TAG" --no-cache-dir
 else
     if [ -n "$CUDA_VERSION" ]; then
@@ -131,7 +131,7 @@ else
         echo "[INFO] No CUDA detected. Using CPU wheel."
     fi
 
-    "$PYTHON_EXE" -m pip install llama-cpp-python \
+    "$PYTHON_EXE" -m pip install llama-cpp-python==0.3.36 \
         --extra-index-url "https://abetlen.github.io/llama-cpp-python/whl/cpu"
 fi
 

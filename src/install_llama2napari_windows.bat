@@ -153,7 +153,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-call "%PYTHON_EXE%" -m pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/%CUDA_TAG% --no-cache-dir
+call "%PYTHON_EXE%" -m pip install llama-cpp-python==0.3.36 --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/%CUDA_TAG% --no-cache-dir
 if errorlevel 1 (
     echo.
     echo [ERROR] CUDA wheel install failed -> falling back to CPU.
@@ -175,7 +175,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-call "%PYTHON_EXE%" -m pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+call "%PYTHON_EXE%" -m pip install llama-cpp-python==0.3.36 --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
 if errorlevel 1 (
     echo.
     echo [ERROR] CPU wheel install failed!

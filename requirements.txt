@@ -1,7 +1,7 @@
 napari
 scikit-image
-onnxruntime-gpu[cuda,cudnn]
+onnxruntime-gpu
 huggingface-hub
 napari-itk-io
 --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu130
-llama-cpp-python
+llama-cpp-python==0.3.36

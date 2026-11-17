@@ -1,6 +1,7 @@
 # %%
 import os
 import json
+import warnings
 from ._widget import Settings, Combo_box
 from .processors import SEG_module, make_volume
 
@@ -754,12 +755,21 @@ class SegmentationWidget(QTabWidget):
         except Exception as exc:
             raise RuntimeError("llama-cpp-python is not installed. Install it to use LLM report generation.") from exc
 
-        self.llm = Llama.from_pretrained(
-            repo_id=REPO_ID,
-            filename=FILENAME,
-            n_ctx=2048,
-            verbose=False,
-        )
+        # llama-cpp-python still passes the deprecated
+        # `local_dir_use_symlinks` argument to huggingface_hub, which ignores
+        # it and warns. The warning is harmless, so silence only that message.
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*local_dir_use_symlinks.*",
+                category=UserWarning,
+            )
+            self.llm = Llama.from_pretrained(
+                repo_id=REPO_ID,
+                filename=FILENAME,
+                n_ctx=2048,
+                verbose=False,
+            )
         self._append_report_log(f"LLM ready: {REPO_ID}/{FILENAME}")
 
     def _get_current_model_key(self):

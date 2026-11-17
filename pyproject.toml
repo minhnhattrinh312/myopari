@@ -4,10 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "myopari"
-version = "0.1.6"
+version = "0.1.7"
 description = "User-Friendly AI Software for Automated Quantitative CMR Reporting on Low-Cost, Energy-Efficient Devices"
 readme = "README.md"
 license = { text = "MIT" }
+authors = [
+    { name = "Minh Nhat Trinh" },
+    { name = "Teresa M Correia" },
+]
 requires-python = ">=3.9"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -27,7 +31,7 @@ classifiers = [
 dependencies = [
     "napari",
     "scikit-image",
-    "onnxruntime-gpu[cuda,cudnn]",
+    "onnxruntime-gpu",
     "huggingface-hub",
     "napari-itk-io",
 ]
